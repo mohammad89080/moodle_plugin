@@ -23,7 +23,8 @@
 
 require_once('../../config.php');
 require_once($CFG->dirroot. '/local/greetings/lib.php');
-require_once($CFG->dirroot.'/local/greetings/simplehtmlForm.php');
+require_once($CFG->dirroot. '/local/greetings/message_form.php');
+//require_once($CFG->dirroot.'/local/greetings/simplehtmlForm.php');
 
 $context = context_system::instance();
 
@@ -34,25 +35,43 @@ $PAGE->set_title($SITE->fullname);
 
 $PAGE->set_heading(get_string('pluginname', 'local_greetings'));
 //$PAGE->navigation->add("kkkk");
-echo $OUTPUT->header();
-// Instantiate simplehtml_form
-$mform = new simplehtml_form();
+//------------------------------------------------------
+$messageform = new local_greetings_message_form();
 
-// Form processing and displaying is done here.
-if ($mform->is_cancelled()) {
-    // Handle form cancel operation, if cancel button is present on form.
-} else if ($fromform = $mform->get_data()) {
-    // In this case you process validated data. $mform->get_data() returns data posted in form.
-} else {
-    // this branch is executed if the form is submitted but the data doesn't validate and the form should be redisplayed
-    // or on the first display of the form.
-
-    // Set default data (if any).
-    $mform->set_data($toform);
-    // Displays the form.
-    $mform->display();
+if ($data = $messageform->get_data()) {
+    var_dump($data);
 }
+echo $OUTPUT->header();
+$messageform->display();
+$message = required_param('message', PARAM_TEXT);
+
+echo $OUTPUT->heading($message, 4);
+if ($data = $messageform->get_data()) {
+    var_dump($data);
+}
+//--------------------------------------------------
+//-------------------------------------------------------
+
+//-----------------------------------------------------------------
+//------------------------------------------------------------
+//// Instantiate simplehtml_form
+////$mform = new simplehtml_form();
 //
+//// Form processing and displaying is done here.
+//if ($mform->is_cancelled()) {
+//    // Handle form cancel operation, if cancel button is present on form.
+//} else if ($fromform = $mform->get_data()) {
+//    // In this case you process validated data. $mform->get_data() returns data posted in form.
+//} else {
+//    // this branch is executed if the form is submitted but the data doesn't validate and the form should be redisplayed
+//    // or on the first display of the form.
+//
+//    // Set default data (if any).
+////    $mform->set_data($toform);
+//    // Displays the form.
+//    $mform->display();
+//}
+//------------------------------------------------------------------
 //$now = time();
 //echo userdate($now);
 //echo '<h2>Greetings, ' . fullname($USER) . '</h2>';
@@ -67,7 +86,7 @@ if ($mform->is_cancelled()) {
 //    echo '<h2>Greetings, user</h2>';
 //}
 // moodleform is defined in formslib.php
-require_once("$CFG->libdir/formslib.php");
+
 
 
 
