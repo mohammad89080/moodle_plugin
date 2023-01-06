@@ -37,55 +37,40 @@ $PAGE->set_heading(get_string('pluginname', 'local_greetings'));
 //$PAGE->navigation->add("kkkk");
 //------------------------------------------------------
 $messageform = new local_greetings_message_form();
-
-if ($data = $messageform->get_data()) {
-    var_dump($data);
-}
 echo $OUTPUT->header();
 $messageform->display();
-$message = required_param('message', PARAM_TEXT);
-
-echo $OUTPUT->heading($message, 4);
 if ($data = $messageform->get_data()) {
-    var_dump($data);
-}
-//--------------------------------------------------
-//-------------------------------------------------------
+    $message = required_param('message', PARAM_TEXT);
 
-//-----------------------------------------------------------------
-//------------------------------------------------------------
-//// Instantiate simplehtml_form
-////$mform = new simplehtml_form();
-//
-//// Form processing and displaying is done here.
-//if ($mform->is_cancelled()) {
-//    // Handle form cancel operation, if cancel button is present on form.
-//} else if ($fromform = $mform->get_data()) {
-//    // In this case you process validated data. $mform->get_data() returns data posted in form.
-//} else {
-//    // this branch is executed if the form is submitted but the data doesn't validate and the form should be redisplayed
-//    // or on the first display of the form.
-//
-//    // Set default data (if any).
-////    $mform->set_data($toform);
-//    // Displays the form.
-//    $mform->display();
+    if (!empty($message)) {
+        $record = new stdClass;
+        $record->message = $message;
+        $record->timecreated = time();
+
+        $DB->insert_record('local_greetings_message', $record);
+    }
+
+}
+$messages=$DB->get_records('local_greetings_message');
+//foreach ($massages as $massage)
+//{
+////    echo '<p>' . $m->message . ', ' . $m->timecreated . '</p>';
+//    echo "<h6 style='background-color:#EEE;font-size: 16px'>". $massage->message . ', ' . userdate($massage->timecreated) . "</h6>";
 //}
-//------------------------------------------------------------------
-//$now = time();
-//echo userdate($now);
-//echo '<h2>Greetings, ' . fullname($USER) . '</h2>';
-////echo get_string('greetingloggedinuser', 'local_greetings', fullname($USER));
-//echo local_greetings_get_greeting($USER);
-//echo '<h2>Greetings, user</h2>';
-//echo get_string('greetinguser', 'local_greetings');
-//if (isloggedin()) {
-//    echo '<h2>Greetings, ' . fullname($USER) . '</h2>';
-//
-//} else {
-//    echo '<h2>Greetings, user</h2>';
-//}
-// moodleform is defined in formslib.php
+
+foreach ($messages as $m) {
+    echo html_writer::start_tag('div', array('class' => 'card'));
+    echo html_writer::start_tag('div', array('class' => 'card-body'));
+    echo html_writer::tag('p', $m->message, array('class' => 'card-text'));
+    echo html_writer::start_tag('p', array('class' => 'card-text'));
+    echo html_writer::tag('small', userdate($m->timecreated), array('class' => 'text-muted'));
+    echo html_writer::end_tag('p');
+    echo html_writer::end_tag('div');
+    echo html_writer::end_tag('div');
+}
+
+echo $OUTPUT->box_end();
+
 
 
 
