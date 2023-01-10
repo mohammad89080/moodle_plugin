@@ -26,7 +26,7 @@ defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'local_greetings';    // Full component name.
 $plugin->release = '0.1.0';    // Number of version.
-$plugin->version = 2022122700;   // Current version.
+$plugin->version = 2022123001;   // Current version.
 $plugin->requires = 2021051700; // Require minimum version.
 $plugin->maturity = MATURITY_ALPHA; //تفيد هذه القيمة في إخبار المدير عن التحديثات الحاصلة من قبل مووديل
 

@@ -45,6 +45,7 @@ function local_greetings_get_greeting($user) {
  *
  * @param navigation_node $frontpage Node representing the front page in the navigation tree.
  */
+require_login();
 function local_greetings_extend_navigation_frontpage(navigation_node $frontpage)
 {
     $frontpage->add(
@@ -56,6 +57,10 @@ function local_greetings_extend_navigation_frontpage(navigation_node $frontpage)
         new pix_icon('t/message', '')
     );
 }
+
+//if (isguestuser()) {
+//    throw new moodle_exception('noguest');
+//}
 function local_greetings_extend_navigation(global_navigation $root)
 {
     $node = navigation_node::create(
